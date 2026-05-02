@@ -14,8 +14,8 @@ Bridle is the plugin successor to [sellier](https://github.com/tacoda/sellier), 
 ## Install
 
 ```
-/plugin marketplace add tacoda/bridle-marketplace
-/plugin install bridle@bridle-marketplace
+/plugin marketplace add tacoda/tacoda-marketplace
+/plugin install bridle@tacoda-marketplace
 ```
 
 ## Quick start
