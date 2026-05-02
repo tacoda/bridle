@@ -6,7 +6,7 @@ argument-hint: "[brief description of the change]"
 
 Implement a change in **[PROJECT_NAME]**: $ARGUMENTS
 
-If the description is unclear, ask before starting.
+If `$ARGUMENTS` is empty, ask the user what change to implement before starting. If the description is unclear, ask for clarification before starting.
 
 ## Workflow
 
