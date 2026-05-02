@@ -4,8 +4,6 @@ Agent project harness manager for Claude Code. A plugin that scaffolds and maint
 
 Bridle is the plugin successor to [sellier](https://github.com/tacoda/sellier), the Python CLI predecessor. Same templates, simpler install.
 
-> **Status:** pre-1.0. Marketplace publication pending; commands stabilizing.
-
 ## Background
 
 - [Announcing sellier](https://dev.to/tacoda/announcing-sellier-4489)

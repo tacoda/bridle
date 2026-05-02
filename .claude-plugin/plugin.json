@@ -1,5 +1,6 @@
 {
   "name": "bridle",
+  "version": "1.0.0",
   "description": "Agent project harness manager for Claude Code",
   "author": {
     "name": "Ian Johnson",
