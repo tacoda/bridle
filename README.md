@@ -28,16 +28,31 @@ Scaffolds `CLAUDE.md` and `.claude/` (rules, agents, skills, commands), then wal
 
 ## Commands
 
-| Pillar | Commands |
-|---|---|
-| **harness** | `/generate-harness` |
-| **guidance** | `/add-rule`  `/scope-rule`  `/show-rules`  `/orient` |
-| **guardrails** | `/check`  `/verify`  `/smell`  `/audit` |
-| **flywheel** | `/learn`  `/retro`  `/stale-rules` |
-| **workflows** | `/new-skill`  `/new-agent`  `/new-command`  `/run-skill`  `/spawn-reviewers`  `/ci-status` |
-| **discipline** | `/debt-map`  `/touch-clean`  `/harness-health` |
-
 All commands invoke as `/bridle:<command>`.
+
+| Pillar | Command | Description |
+|---|---|---|
+| harness | `/generate-harness` | Scaffold the harness into the current project and substitute placeholders |
+| guidance | `/add-rule` | Create a new rule file in `.claude/rules/` |
+| guidance | `/scope-rule` | Adjust an existing rule's `paths:` scope |
+| guidance | `/show-rules` | List every rule with description, scope, and last-modified date |
+| guidance | `/orient` | Walk the codebase and propose context additions to `CLAUDE.md` |
+| guardrails | `/check` | Run lint, type-check, and tests scoped to the current diff |
+| guardrails | `/verify` | Run `/check` plus parallel functional and security review agents |
+| guardrails | `/smell` | Spot refactoring opportunities in the current diff |
+| guardrails | `/audit` | Walk the codebase against every rule and report violations |
+| flywheel | `/learn` | Convert review feedback into a rule update |
+| flywheel | `/retro` | Mine recent commits for patterns that should become rules |
+| flywheel | `/stale-rules` | Flag rules that haven't been updated and propose actions |
+| workflows | `/new-skill` | Scaffold a new project-local skill |
+| workflows | `/new-agent` | Scaffold a new project-local agent |
+| workflows | `/new-command` | Scaffold a new project-local slash command |
+| workflows | `/run-skill` | Manually invoke a project-local skill by name |
+| workflows | `/spawn-reviewers` | Fan out every review agent on the current diff |
+| workflows | `/ci-status` | Show the latest CI runs for the current branch |
+| discipline | `/debt-map` | Heatmap of where rule debt is concentrated |
+| discipline | `/touch-clean` | Boy-scout rule: surface smells in files in the current diff |
+| discipline | `/harness-health` | Dashboard of rule freshness, coverage, and flywheel cadence |
 
 ## Safety
 
