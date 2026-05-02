@@ -1,0 +1,11 @@
+{
+  "name": "bridle",
+  "description": "Agent project harness manager for Claude Code",
+  "author": {
+    "name": "Ian Johnson",
+    "email": "tacoda@hey.com"
+  },
+  "homepage": "https://github.com/tacoda/bridle",
+  "repository": "https://github.com/tacoda/bridle",
+  "license": "MIT"
+}
