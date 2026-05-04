@@ -12,7 +12,7 @@ description: Core design principles governing all code in {{ PROJECT_NAME }}
 - **When in doubt, choose the boring solution.**
 
 ## Construction
-- Names reveal intent; length proportional to scope; use domain vocabulary
+- Names reveal intent; length proportional to scope; use domain vocabulary (see `GLOSSARY.md`)
 - Functions: small, **one level of abstraction**, few arguments (<=3), no hidden side effects
 - Command-Query Separation: do something OR answer something, not both
 - **Program to interfaces, not implementations.** Depend on abstractions; create implementations behind interfaces rather than branching on type.

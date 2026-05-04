@@ -13,7 +13,7 @@ Bridle is the plugin successor to [sellier](https://github.com/tacoda/sellier), 
 
 A **harness** is the system that lets an AI agent produce correct, high-quality code consistently. Bridle's harness has five pillars:
 
-- **Guidance** — `CLAUDE.md` and rules in `.claude/rules/` that shape what the agent writes before it writes a single line.
+- **Guidance** — `CLAUDE.md`, rules in `.claude/rules/`, on-demand feature docs in `.claude/features/`, and `GLOSSARY.md` for ubiquitous language. Together they shape what the agent writes before it writes a single line.
 - **Guardrails** — lint, tests, type-checks the agent runs and won't bypass.
 - **Workflows** — agents, commands, and skills as runnable procedures.
 - **Flywheel** — review feedback updates rules; rules shape the next conversation.
@@ -59,7 +59,9 @@ After the scaffold, you have:
 
 - `CLAUDE.md` — project context loaded on every conversation.
 - `HARNESS.md` — pillar definitions.
+- `GLOSSARY.md` — ubiquitous domain vocabulary with aliases-to-avoid.
 - `.claude/rules/` — behavioral rules (some always-loaded, some path-scoped).
+- `.claude/features/` — on-demand domain context, read when exploring a specific feature.
 - `.claude/agents/` — review and analysis agents.
 - `.claude/commands/` — single-step utilities (e.g., `/pre-commit`).
 - `.claude/skills/` — multi-phase workflows (`/implement-change`, `/fix-bug`, `/onboard`).
@@ -124,6 +126,7 @@ All commands invoke as `/bridle:<command>`.
 | harness | `/generate-harness` | Scaffold the harness into the current project and substitute placeholders |
 | harness | `/mode` | Read or set the bridle execution mode (paired, solo, autopilot) |
 | guidance | `/add-rule` | Create a new rule file in `.claude/rules/` |
+| guidance | `/add-feature-doc` | Scaffold a new on-demand feature doc in `.claude/features/` |
 | guidance | `/scope-rule` | Adjust an existing rule's `paths:` scope |
 | guidance | `/show-rules` | List every rule with description, scope, and last-modified date |
 | guidance | `/orient` | Walk the codebase and propose context additions to `CLAUDE.md` |

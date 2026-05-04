@@ -62,6 +62,8 @@ flowchart LR
 - `CLAUDE.md` — project context, layout, commands, change-approval flow.
 - `HARNESS.md` — this file. The canonical definition of the pillars; the rest of the harness points back to it.
 - `.claude/rules/*.md` — behavioral rules. Some always-loaded, some path-scoped (auto-load only when touching matching files).
+- `.claude/features/*.md` — on-demand domain context (entities, endpoints, gotchas) the agent reads when exploring a feature. Not auto-loaded.
+- `GLOSSARY.md` — ubiquitous domain vocabulary with aliases-to-avoid.
 
 **Interacts with:**
 - **Flywheel** updates Guidance every time a review surfaces a pattern.

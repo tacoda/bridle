@@ -21,14 +21,18 @@ The template tree lives at `${CLAUDE_PLUGIN_ROOT}/templates/`:
 ```
 templates/
 ├── CLAUDE.md
+├── GLOSSARY.md
 ├── HARNESS.md
 └── .claude/
     ├── settings.json
-    ├── rules/{design-principles,tests,security,commits,bridle-mode}.md
+    ├── rules/{design-principles,tests,security,commits,bridle-mode,session-hygiene,mcp}.md
+    ├── features/{_template,README}.md
     ├── agents/{ci-diagnose,refactor-changes,review-functional,review-security,self-review}.md
     ├── commands/pre-commit.md
     └── skills/{implement-change,fix-bug,onboard}/SKILL.md
 ```
+
+`.claude/features/_template.md` is reference-only for the consumer. Its `<...>` placeholders are filled per feature by `/bridle:add-feature-doc`, **not** by this command. The Phase 2 scan only touches `{{ }}` tokens, so the template is naturally untouched.
 
 `HARNESS.md` is the canonical definition of the harness pillars. `CLAUDE.md` imports it via `@HARNESS.md`. Treat `HARNESS.md` as a regular template under the scaffolding contract — write if absent, skip if identical, ask if different. It contains no `{{ PLACEHOLDER }}` tokens, so Phase 2 leaves it untouched.
 
@@ -66,9 +70,9 @@ Confirm Phase 1 looks right before moving to Phase 2.
 
 ## Phase 2: Customize (placeholder substitution)
 
-1. **Inventory placeholders.** Find every `{{ NAME }}` token (uppercase letters, digits, underscores inside double curly braces) in the freshly-scaffolded files only:
+1. **Inventory placeholders.** Find every `{{ NAME }}` token (uppercase letters, digits, underscores inside double curly braces) in the freshly-scaffolded files:
    ```
-   git grep -nE '\{\{ ?[A-Z][A-Z0-9_]+ ?\}\}' -- CLAUDE.md .claude/
+   git grep -nE '\{\{ ?[A-Z][A-Z0-9_]+ ?\}\}' -- CLAUDE.md GLOSSARY.md .claude/
    ```
    The regex tolerates optional spacing so a hand-written `{{NAME}}` is still caught; emit replacements over the spaced form. Build a deduplicated list. Expected tokens (the exact set varies):
    `PROJECT_NAME`, `PROJECT_DESCRIPTION`, `TECH_STACK`, `MAIN_BRANCH`, `TASK_TRACKER`, `CI_PROVIDER`, `LINT_COMMAND`, `TEST_COMMAND`, `BUILD_COMMAND`, `FRONTEND_TEST_COMMAND`, `BUILD_TOOL`, `TEST_PATHS`, `DEPENDENCY_AUDIT_COMMAND`, `PROJECT_LAYOUT`, `PROJECT_PATTERNS`, `TEST_SETUP_NOTES`, `SECURITY_NOTES`, `COMMIT_NOTES`.
@@ -91,7 +95,7 @@ Confirm Phase 1 looks right before moving to Phase 2.
 
 4. **Ask for feedback.** The user may correct any value, request more research, or say a placeholder should be removed entirely.
 
-5. **Once approved, replace each token across the freshly-scaffolded files only** (`CLAUDE.md` and `.claude/`). Use exact string replacement — every occurrence of `{{ NAME }}` becomes the chosen value. Replace inside fenced code blocks too. Do not edit any file outside the harness.
+5. **Once approved, replace each token across the freshly-scaffolded files only** (`CLAUDE.md`, `GLOSSARY.md`, and `.claude/`). Use exact string replacement — every occurrence of `{{ NAME }}` becomes the chosen value. Replace inside fenced code blocks too. Do not edit any file outside the harness. The `<...>` copy-time placeholders in `.claude/features/_template.md` are a different shape and are not touched by this scan.
 
 6. **Verify.** Re-run the inventory grep. The only matches that should remain are placeholders the user explicitly chose to keep.
 
@@ -103,5 +107,5 @@ Confirm Phase 1 looks right before moving to Phase 2.
 
 - Do not invent project facts. If evidence is missing, write "unknown" and ask.
 - Do not modify any file outside `CLAUDE.md` and `.claude/`.
-- Do not add new rule files, agents, commands, or skills as part of this command — use `/bridle:add-rule`, `/bridle:new-agent`, `/bridle:new-command`, `/bridle:new-skill`.
+- Do not add new rule files, agents, commands, skills, or feature docs as part of this command — use `/bridle:add-rule`, `/bridle:new-agent`, `/bridle:new-command`, `/bridle:new-skill`, `/bridle:add-feature-doc`.
 - Never overwrite a file silently. The contract in `.claude/rules/scaffolding.md` is strict.
