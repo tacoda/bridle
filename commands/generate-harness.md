@@ -27,7 +27,7 @@ templates/
     ├── rules/{design-principles,tests,security,commits}.md
     ├── agents/{ci-diagnose,refactor-changes,review-functional,review-security,self-review}.md
     ├── commands/pre-commit.md
-    └── skills/implement-change/SKILL.md
+    └── skills/{implement-change,fix-bug,onboard}/SKILL.md
 ```
 
 `HARNESS.md` is the canonical component definition of the harness. `CLAUDE.md` imports it via `@HARNESS.md`. Treat `HARNESS.md` as a regular template under the scaffolding contract — write if absent, skip if identical, ask if different. It contains no `{{ PLACEHOLDER }}` tokens, so Phase 2 leaves it untouched.
