@@ -8,5 +8,8 @@
       "Bash(wc *)"
     ],
     "deny": []
+  },
+  "enabledPlugins": {
+    "bridle@tacoda-marketplace": true
   }
 }
