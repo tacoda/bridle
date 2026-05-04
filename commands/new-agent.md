@@ -11,12 +11,16 @@ Scaffold a new agent named `$ARGUMENTS`. If empty, ask for a name.
 
 2. **Check for collision.** If `.claude/agents/<name>.md` exists, show its contents and ask whether to overwrite (default: no).
 
-3. **Ask three questions:**
-   - **Purpose** — what does this agent analyze? (one sentence; becomes `description:`)
-   - **Tools** — what does it need access to? Most read-only review agents need only `Read`, `Grep`, `Glob`, and a few `Bash(git diff*)` patterns.
-   - **Output** — what shape of report? (numbered list, table, summary)
+3. **Ask five questions:**
+   - **Purpose** — what does this agent analyze or own? (one sentence; becomes `description:`)
+   - **Shape** — *review agent* (read-only analysis) or *scoped worker* (write-capable, fenced to one tree)?
+   - **Scope** — which paths does this agent stay inside? (e.g., `apps/web/**`, `packages/server/**`, `CHANGELOG/**`, or `repo-wide`)
+   - **Tools** — which tools does it need? Review agents typically need `Read`, `Grep`, `Glob`, and `Bash(git diff*)`. Scoped workers add `Edit` and `Write`.
+   - **Output** — for a review agent, what report shape (numbered list, table, summary)? For a scoped worker, what files does it produce?
 
-4. **Draft the agent file** with this shape:
+4. **Draft the agent file** using the skeleton that matches the chosen shape.
+
+   **Review agent:**
 
    ```markdown
    ---
@@ -28,20 +32,45 @@ Scaffold a new agent named `$ARGUMENTS`. If empty, ask for a name.
      - "Bash(git diff*)"
    ---
 
-   <One-paragraph framing>
+   <One-paragraph framing — state the scope explicitly: which paths the agent reads and which it stays out of>
 
-   ## What to Check
+   ## Responsibilities
    1. <criterion>
    ...
 
-   ## Output Format
-   <shape>
+   ## Output
+   <report shape>
+   ```
+
+   **Scoped worker:**
+
+   ```markdown
+   ---
+   description: <purpose>
+   allowed_tools:
+     - Read
+     - Grep
+     - Glob
+     - Edit
+     - Write
+   ---
+
+   <One-paragraph framing — state the scope explicitly: which paths the agent owns and which it must not touch>
+
+   ## Responsibilities
+   1. <task>
+   ...
+
+   ## Output
+   <which files it produces or modifies>
    ```
 
 5. **Show the diff** and ask before saving.
 
 ## Rules
 
-- Agents are isolated, read-only analyses. If the work needs to write files, it's a skill or command, not an agent.
+- Agents fall into two shapes: **review agents** (read-only analyses) and **scoped workers** (write-capable but fenced to one path scope). Pick one shape; don't blur them.
+- The point of a subagent is *scoping, not special powers* — a `web` agent should not wander into the server tree.
 - Default to the minimum tool surface that gets the job done.
+- A scoped worker that wanders outside its declared scope is a bug — restate the scope in the framing so the agent self-checks.
 - Follow the safety contract — never silently overwrite.
