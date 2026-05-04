@@ -80,6 +80,16 @@ All commands invoke as `/bridle:<command>`.
 | discipline | `/touch-clean` | Boy-scout rule: surface smells in files in the current diff |
 | discipline | `/harness-health` | Dashboard of rule freshness, coverage, and flywheel cadence |
 
+## Scaffolded skills
+
+`/bridle:generate-harness` writes these multi-phase skills into `.claude/skills/`. They're invoked as `/<name>` from your project, run on Claude Code alone, and are yours to edit.
+
+| Skill | Description |
+|---|---|
+| `/implement-change` | Implement a change (feature, follow-up) using TDD — requirements through to a PR |
+| `/fix-bug` | Diagnose and fix a bug using TDD — replicate, wrap in a failing test, fix, ship |
+| `/onboard` | Walk a new engineer through orient, environment verification, and a first starter PR |
+
 ## Safety
 
 Every command that writes files into your project follows a strict contract:
