@@ -23,19 +23,19 @@ templates/                     # what /generate-harness writes into a target pro
 
 ## The Harness
 
-Bridle's vocabulary — used to organize commands, rules, and prose:
+@HARNESS.md
 
-1. **Guidance** — `CLAUDE.md` and `.claude/rules/`. Path-scoped rules auto-load when touching matching files.
-2. **Guardrails** — automated checks. (Bridle has none yet — the deliverable is text. Verification is manual review.)
-3. **Flywheel** — when a review surfaces a pattern, update the relevant rule, reload it, re-apply.
-4. **Workflows** — `agents/`, `commands/`, `skills/` — institutional knowledge as runnable procedures.
-5. **Discipline** — the practices that hold the other four together.
+### Bridle's specifics
+
+- Bridle has no automated **Guardrails** — the deliverable is text. Verification is manual review.
+- Bridle's commands are organized around the five pillars; the namespace is conveyed by the `description:` field, not the file path.
 
 | Rule file | Scope |
 |---|---|
 | `.claude/rules/design-principles.md` | Always loaded |
 | `.claude/rules/security.md` | Loaded when editing slash commands or scaffolding logic |
 | `.claude/rules/commits.md` | Loaded before commit |
+| `.claude/rules/scaffolding.md` | Loaded for commands that write into a user's project |
 
 ## Change Approval Flow
 
