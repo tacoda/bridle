@@ -41,7 +41,7 @@ Open a project in Claude Code:
 /bridle:generate-harness
 ```
 
-Scaffolds `CLAUDE.md` and `.claude/` (rules, agents, skills, commands), then walks the codebase to fill placeholders. Existing files are never silently overwritten — conflicts are shown and confirmed individually.
+Scaffolds `CLAUDE.md`, `HARNESS.md` (the component definition of the harness), and `.claude/` (rules, agents, skills, commands), then walks the codebase to fill placeholders. Existing files are never silently overwritten — conflicts are shown and confirmed individually.
 
 ## You own your harness
 
