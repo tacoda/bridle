@@ -138,7 +138,7 @@ All commands invoke as `/bridle:<command>`.
 | flywheel | `/retro` | Mine recent commits for patterns that should become rules |
 | flywheel | `/stale-rules` | Flag rules that haven't been updated and propose actions |
 | workflows | `/new-skill` | Scaffold a new project-local skill |
-| workflows | `/new-agent` | Scaffold a new project-local agent |
+| workflows | `/new-agent` | Scaffold a new project-local agent — review (read-only) or scoped worker (write-capable, fenced to a path tree) |
 | workflows | `/new-command` | Scaffold a new project-local slash command |
 | workflows | `/run-skill` | Manually invoke a project-local skill by name |
 | workflows | `/spawn-reviewers` | Fan out every review agent on the current diff |
