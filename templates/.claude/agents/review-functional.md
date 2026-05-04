@@ -9,7 +9,7 @@ allowed_tools:
   - "Bash(git show*)"
 ---
 
-Functional review of the current branch against `[MAIN_BRANCH]`. Read-only.
+Functional review of the current branch against `{{ MAIN_BRANCH }}`. Read-only.
 
 ## What to Check
 

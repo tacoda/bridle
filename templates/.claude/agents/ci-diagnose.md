@@ -1,5 +1,5 @@
 ---
-description: Diagnose a failing CI run on [CI_PROVIDER] and propose fixes
+description: Diagnose a failing CI run on {{ CI_PROVIDER }} and propose fixes
 allowed_tools:
   - Read
   - Grep
@@ -8,7 +8,7 @@ allowed_tools:
   - "Bash(git *)"
 ---
 
-Diagnose the most recent failing CI run for the current branch on [CI_PROVIDER]. Read-only.
+Diagnose the most recent failing CI run for the current branch on {{ CI_PROVIDER }}. Read-only.
 
 ## Steps
 

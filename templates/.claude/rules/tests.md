@@ -1,12 +1,12 @@
 ---
-description: Test patterns and TDD workflow for [PROJECT_NAME]
+description: Test patterns and TDD workflow for {{ PROJECT_NAME }}
 paths:
-  - "[TEST_PATHS]"
+  - "{{ TEST_PATHS }}"
 ---
 
 # Tests
 
-Tests are the primary quality gate. Every change must pass `[LINT_COMMAND]` and `[TEST_COMMAND]` before commit.
+Tests are the primary quality gate. Every change must pass `{{ LINT_COMMAND }}` and `{{ TEST_COMMAND }}` before commit.
 
 ## Philosophy
 
@@ -54,4 +54,4 @@ Structure every test with clear separation. One logical assertion per test.
 
 ## Project-Specific Test Setup
 
-[TEST_SETUP_NOTES]
+{{ TEST_SETUP_NOTES }}

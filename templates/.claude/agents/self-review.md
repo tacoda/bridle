@@ -9,7 +9,7 @@ allowed_tools:
   - "Bash(git show*)"
 ---
 
-Review the current branch's changes for **code quality and reuse**. Compare the diff against `[MAIN_BRANCH]`.
+Review the current branch's changes for **code quality and reuse**. Compare the diff against `{{ MAIN_BRANCH }}`.
 
 ## Scope
 

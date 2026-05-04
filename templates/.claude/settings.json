@@ -6,7 +6,7 @@
       "Bash(grep *)",
       "Bash(find *)",
       "Bash(wc *)",
-      "Bash([BUILD_TOOL] *)"
+      "Bash({{ BUILD_TOOL }} *)"
     ],
     "deny": []
   }

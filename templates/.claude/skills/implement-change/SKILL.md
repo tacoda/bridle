@@ -4,7 +4,7 @@ description: Implement a change (bug fix, feature, follow-up) using TDD — from
 argument-hint: "[brief description of the change]"
 ---
 
-Implement a change in **[PROJECT_NAME]**: $ARGUMENTS
+Implement a change in **{{ PROJECT_NAME }}**: $ARGUMENTS
 
 If `$ARGUMENTS` is empty, ask the user what change to implement before starting. If the description is unclear, ask for clarification before starting.
 
@@ -20,7 +20,7 @@ If `$ARGUMENTS` is empty, ask the user what change to implement before starting.
 5. Ask for feedback.
 
 ### Phase 3: Branch
-6. Create a branch from latest `origin/[MAIN_BRANCH]` with a descriptive name.
+6. Create a branch from latest `origin/{{ MAIN_BRANCH }}` with a descriptive name.
 
 ### Phase 4: TDD
 7. Write failing tests. Present test descriptions for review.
@@ -35,7 +35,7 @@ If `$ARGUMENTS` is empty, ask the user what change to implement before starting.
 14. Commit (conventional commits, no co-authors) and push.
 
 ### Phase 6: CI & Refactor
-15. Watch [CI_PROVIDER] in the background — do NOT block.
+15. Watch {{ CI_PROVIDER }} in the background — do NOT block.
 16. If CI fails, spawn `ci-diagnose`, fix, commit, push.
 17. Spawn the **refactor-changes agent** on the diff. Present findings as a numbered list and ask which to address.
 18. Run `/pre-commit`, commit, push.
@@ -48,4 +48,4 @@ If `$ARGUMENTS` is empty, ask the user what change to implement before starting.
 - Auto-accept edits during implementation — pause only at the explicit feedback checkpoints.
 - Feedback about patterns → update the rule file first, then re-apply.
 - Use conventional commits, no co-authors.
-- Do not mention this agent in commit messages, PR descriptions, or [TASK_TRACKER] tickets.
+- Do not mention this agent in commit messages, PR descriptions, or {{ TASK_TRACKER }} tickets.

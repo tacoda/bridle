@@ -1,5 +1,5 @@
 ---
-description: OWASP Top 10 mapped to [PROJECT_NAME]
+description: OWASP Top 10 mapped to {{ PROJECT_NAME }}
 ---
 
 # Security
@@ -29,9 +29,9 @@ Security review is required when a change touches: authentication, authorization
 
 ## Dependencies
 - Pin dependency versions
-- Run dependency audit (`[DEPENDENCY_AUDIT_COMMAND]`) regularly
+- Run dependency audit (`{{ DEPENDENCY_AUDIT_COMMAND }}`) regularly
 - Update on a cadence; security patches promptly
 
 ## Project-Specific Security Notes
 
-[SECURITY_NOTES]
+{{ SECURITY_NOTES }}

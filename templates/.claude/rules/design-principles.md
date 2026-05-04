@@ -1,5 +1,5 @@
 ---
-description: Core design principles governing all code in [PROJECT_NAME]
+description: Core design principles governing all code in {{ PROJECT_NAME }}
 ---
 
 # Design Principles
@@ -43,4 +43,4 @@ Tell objects what to do instead of querying their state and deciding for them. E
 
 ## Project-Specific Patterns
 
-[PROJECT_PATTERNS]
+{{ PROJECT_PATTERNS }}

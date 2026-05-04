@@ -9,7 +9,7 @@ allowed_tools:
   - "Bash(git show*)"
 ---
 
-Spot refactoring opportunities in the current diff against `[MAIN_BRANCH]`. Read-only — do not edit.
+Spot refactoring opportunities in the current diff against `{{ MAIN_BRANCH }}`. Read-only — do not edit.
 
 ## What to Look For
 

@@ -9,7 +9,7 @@ allowed_tools:
   - "Bash(git show*)"
 ---
 
-Security review of the current branch against `[MAIN_BRANCH]`. Read-only.
+Security review of the current branch against `{{ MAIN_BRANCH }}`. Read-only.
 
 ## What to Check
 

@@ -4,7 +4,7 @@ description: Diagnose and fix a bug using TDD — replicate, gather evidence, di
 argument-hint: "[brief description of the bug or a tracker reference]"
 ---
 
-Fix a bug in **[PROJECT_NAME]**: $ARGUMENTS
+Fix a bug in **{{ PROJECT_NAME }}**: $ARGUMENTS
 
 If `$ARGUMENTS` is empty, ask the user what bug to fix before starting. If the description is unclear, ask for clarification — for bugs, this usually means asking for steps to reproduce, expected vs actual behavior, and any error output or logs.
 
@@ -26,7 +26,7 @@ If `$ARGUMENTS` is empty, ask the user what bug to fix before starting. If the d
 9. Ask for feedback on the diagnosis. Once approved, proceed.
 
 ### Phase 4: Branch
-10. Create a branch from latest `origin/[MAIN_BRANCH]` named after the bug (e.g., `fix/<short-description>`).
+10. Create a branch from latest `origin/{{ MAIN_BRANCH }}` named after the bug (e.g., `fix/<short-description>`).
 
 ### Phase 5: TDD — wrap the bug in a test first
 11. Write a regression test that fails *because of the bug*. Present the test description for review.
@@ -43,7 +43,7 @@ If `$ARGUMENTS` is empty, ask the user what bug to fix before starting. If the d
 20. Commit with conventional `fix:` type, no co-authors, and push.
 
 ### Phase 7: CI & Refactor
-21. Watch [CI_PROVIDER] in the background — do NOT block.
+21. Watch {{ CI_PROVIDER }} in the background — do NOT block.
 22. If CI fails, spawn `ci-diagnose`, fix, commit, push.
 23. Spawn the **refactor-changes agent** on the diff. Present findings as a numbered list and ask which to address.
 24. Run `/pre-commit`, commit, push.
@@ -57,4 +57,4 @@ If `$ARGUMENTS` is empty, ask the user what bug to fix before starting. If the d
 - Auto-accept edits during implementation — pause only at the explicit feedback checkpoints.
 - Feedback about patterns → update the rule file first, then re-apply.
 - Use conventional commits with `fix:` type, no co-authors.
-- Do not mention this skill in commit messages, PR descriptions, or [TASK_TRACKER] tickets.
+- Do not mention this skill in commit messages, PR descriptions, or {{ TASK_TRACKER }} tickets.
