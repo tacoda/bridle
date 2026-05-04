@@ -11,10 +11,27 @@ Bridle is the plugin successor to [sellier](https://github.com/tacoda/sellier), 
 
 ## Install
 
-```
-/plugin marketplace add tacoda/tacoda-marketplace
-/plugin install bridle@tacoda-marketplace
-```
+Recommended: install bridle at the **project level** so every contributor opens the repo with the same harness tooling.
+
+1. Add the marketplace (once per machine):
+
+   ```
+   /plugin marketplace add tacoda/tacoda-marketplace
+   ```
+
+2. Pin bridle in your project's `.claude/settings.json` and commit it:
+
+   ```json
+   {
+     "enabledPlugins": {
+       "bridle@tacoda-marketplace": true
+     }
+   }
+   ```
+
+Claude Code installs bridle the next time the project opens.
+
+To install for yourself only (no commit), run `/plugin install bridle@tacoda-marketplace` instead.
 
 ## Quick start
 
