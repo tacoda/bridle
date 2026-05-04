@@ -15,7 +15,7 @@ Bridle ships text files, but those files instruct Claude Code to perform actions
 - Don't suggest commands that bypass safety prompts (`rm -rf`, `git push --force`, `--no-verify`) unless the user explicitly asks.
 
 ## Secrets
-- Never write secrets, tokens, or env values into templates. Use `[PLACEHOLDER]` tokens for any value that varies by project.
+- Never write secrets, tokens, or env values into templates. Use `{{ PLACEHOLDER }}` tokens for any value that varies by project.
 - Hooks and MCP server configs must reference `${CLAUDE_PLUGIN_ROOT}` and read secrets from the user's environment, never from plugin files.
 
 ## Marketplace integrity

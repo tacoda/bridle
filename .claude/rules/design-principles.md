@@ -20,7 +20,7 @@ description: Core design principles governing bridle
 ## Bridle-specific patterns
 
 - The **value lives in the templates and command markdown**, not in any wrapper code (there is no wrapper code).
-- Every project-specific value in templates is a `[PLACEHOLDER]` token (uppercase letters, digits, underscores in square brackets). `/generate-harness` finds and replaces them.
+- Every project-specific value in templates is a `{{ PLACEHOLDER }}` token (uppercase letters, digits, underscores inside double curly braces, single space padding). `/generate-harness` finds and replaces them.
 - Reference plugin files with `${CLAUDE_PLUGIN_ROOT}` so paths work after the plugin is cached.
 - Commands receive arguments via `$ARGUMENTS` (single-string) or `$1`, `$2`, ... (positional). Pick the simpler form.
 - Prefer **describing intent** in command markdown over enumerating exact tool calls. Trust Claude to choose tools.

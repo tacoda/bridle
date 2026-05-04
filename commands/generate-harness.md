@@ -8,7 +8,7 @@ Scaffold the bridle harness into the project at `$ARGUMENTS` (defaults to the cu
 This command does two things in one pass:
 
 1. **Scaffold** — copy the harness template tree into the target project under the scaffolding safety contract.
-2. **Customize** — find every `[PLACEHOLDER]` token in the freshly-scaffolded files and replace it with project-specific values inferred from the codebase, with the user's confirmation.
+2. **Customize** — find every `{{ PLACEHOLDER }}` token in the freshly-scaffolded files and replace it with project-specific values inferred from the codebase, with the user's confirmation.
 
 Phase 1 must complete before Phase 2 starts.
 
@@ -63,11 +63,11 @@ Confirm Phase 1 looks right before moving to Phase 2.
 
 ## Phase 2: Customize (placeholder substitution)
 
-1. **Inventory placeholders.** Find every `[A-Z][A-Z0-9_]+` token in the freshly-scaffolded files only:
+1. **Inventory placeholders.** Find every `{{ NAME }}` token (uppercase letters, digits, underscores inside double curly braces) in the freshly-scaffolded files only:
    ```
-   git grep -nE '\[[A-Z][A-Z0-9_]+\]' -- CLAUDE.md .claude/
+   git grep -nE '\{\{ ?[A-Z][A-Z0-9_]+ ?\}\}' -- CLAUDE.md .claude/
    ```
-   Build a deduplicated list. Expected tokens (the exact set varies):
+   The regex tolerates optional spacing so a hand-written `{{NAME}}` is still caught; emit replacements over the spaced form. Build a deduplicated list. Expected tokens (the exact set varies):
    `PROJECT_NAME`, `PROJECT_DESCRIPTION`, `TECH_STACK`, `MAIN_BRANCH`, `TASK_TRACKER`, `CI_PROVIDER`, `LINT_COMMAND`, `TEST_COMMAND`, `BUILD_COMMAND`, `FRONTEND_TEST_COMMAND`, `BUILD_TOOL`, `TEST_PATHS`, `DEPENDENCY_AUDIT_COMMAND`, `PROJECT_LAYOUT`, `PROJECT_PATTERNS`, `TEST_SETUP_NOTES`, `SECURITY_NOTES`, `COMMIT_NOTES`.
 
 2. **Inspect the project for evidence.** Read whichever exist:
@@ -88,7 +88,7 @@ Confirm Phase 1 looks right before moving to Phase 2.
 
 4. **Ask for feedback.** The user may correct any value, request more research, or say a placeholder should be removed entirely.
 
-5. **Once approved, replace each token across the freshly-scaffolded files only** (`CLAUDE.md` and `.claude/`). Use exact string replacement — every occurrence of `[NAME]` becomes the chosen value. Replace inside fenced code blocks too. Do not edit any file outside the harness.
+5. **Once approved, replace each token across the freshly-scaffolded files only** (`CLAUDE.md` and `.claude/`). Use exact string replacement — every occurrence of `{{ NAME }}` becomes the chosen value. Replace inside fenced code blocks too. Do not edit any file outside the harness.
 
 6. **Verify.** Re-run the inventory grep. The only matches that should remain are placeholders the user explicitly chose to keep.
 
