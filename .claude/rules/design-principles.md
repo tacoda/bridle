@@ -25,6 +25,15 @@ description: Core design principles governing bridle
 - Commands receive arguments via `$ARGUMENTS` (single-string) or `$1`, `$2`, ... (positional). Pick the simpler form.
 - Prefer **describing intent** in command markdown over enumerating exact tool calls. Trust Claude to choose tools.
 
+## Plugin vs. template separation (no double-load)
+
+The consumer owns the harness. The plugin owns the engine that maintains it. These two surfaces must not overlap.
+
+- **Plugin root** (`commands/`, and `agents/`/`skills/` if they ever exist) is for `/bridle:*` meta-tools that *operate on* a harness — `add-rule`, `learn`, `audit`, `verify`, etc.
+- **`templates/.claude/`** is for everything the consumer should own and version-control — rules, project-facing commands, review agents, skills like `implement-change`.
+- **Invariant:** no artifact basename may exist in both `<plugin-root>/{agents,skills,commands}/` and `templates/.claude/{agents,skills,commands}/`. If both ship, both load when a consumer installs bridle and runs `generate-harness`, and the consumer can't cleanly override or version-control their copy.
+- When in doubt about where something belongs, ask: *does the consumer need to edit this for their project?* Yes → template. No → plugin root.
+
 ## Anti-Patterns
 - Premature abstraction in command instructions ("this could be configurable")
 - Speculative placeholders that no command references

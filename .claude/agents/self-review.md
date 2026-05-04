@@ -27,6 +27,10 @@ Catch quality and reuse issues before the code is shown to the user. Lightweight
 5. **Naming** — Do command, agent, skill names reveal intent? Are they consistent with bridle's vocabulary?
 6. **Consistency** — Does the change follow the patterns of the surrounding files (frontmatter shape, section order, tone)?
 
+### Plugin vs. template separation
+7. **No double-load.** If the diff adds or renames a file under `agents/`, `skills/`, or `commands/` at the plugin root, or under `templates/.claude/{agents,skills,commands}/`, list every basename in both trees and flag any collision. The invariant in `.claude/rules/design-principles.md` (Plugin vs. template separation) forbids the same basename appearing in both.
+8. **Right side of the line.** For each added/changed artifact, confirm it's on the correct surface: plugin root is for `/bridle:*` meta-tools that operate on a harness; `templates/.claude/` is for consumer-owned, version-controlled artifacts. Flag anything on the wrong side.
+
 ## Output Format
 
 Numbered markdown list. Each finding:
