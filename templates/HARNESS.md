@@ -1,6 +1,6 @@
 # The Harness
 
-The harness is the system that lets an AI agent produce correct, high-quality code consistently. It has **five components**: four that the agent works through, plus the discipline that holds them together.
+The harness is the system that lets an AI agent produce correct, high-quality code consistently. It has **five pillars**: four that the agent works through, plus the discipline that holds them together.
 
 ## Diagram
 
@@ -42,7 +42,7 @@ flowchart LR
   CB -->|agent learns from what it reads| WF
 ```
 
-## Components at a glance
+## Pillars at a glance
 
 | Pillar | What it does |
 |---|---|
@@ -60,7 +60,7 @@ flowchart LR
 
 **Includes:**
 - `CLAUDE.md` — project context, layout, commands, change-approval flow.
-- `HARNESS.md` — this file. The component definition the rest of the harness points back to.
+- `HARNESS.md` — this file. The canonical definition of the pillars; the rest of the harness points back to it.
 - `.claude/rules/*.md` — behavioral rules. Some always-loaded, some path-scoped (auto-load only when touching matching files).
 
 **Interacts with:**
@@ -118,5 +118,5 @@ flowchart LR
 - Harness-health practices — debt maps, stale-rule checks, periodic audits.
 
 **Interacts with:**
-- Governs the **Codebase** that all other components touch.
+- Governs the **Codebase** that all other pillars touch.
 - Without it, rules go stale, workflows accumulate cruft, and the agent drifts back to whatever pattern it last saw most often.

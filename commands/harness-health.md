@@ -1,5 +1,5 @@
 ---
-description: Dashboard of harness health — rule freshness, internal consistency, last learn cadence, and component coverage
+description: Dashboard of harness health — rule freshness, internal consistency, last learn cadence, and workflow coverage
 ---
 
 Produce a single-page health report for the project's harness. Read-only.
@@ -11,7 +11,7 @@ Produce a single-page health report for the project's harness. Read-only.
 - Rules updated within 30 / 90 / 365 days (count each)
 - Rules unchanged for 365+ days (list filenames)
 
-### 2. Component coverage
+### 2. Workflow coverage
 - `.claude/agents/*.md` — count, list filenames
 - `.claude/commands/*.md` — count, list filenames
 - `.claude/skills/*/SKILL.md` — count, list skill names
@@ -33,7 +33,7 @@ For each rule, agent, command, and skill:
 Harness Health
 ==============
 Rules:        N total / X fresh (<30d) / Y stale (>365d)
-Components:   A agents / C commands / S skills
+Workflows:    A agents / C commands / S skills
 Consistency:  ✓ all parse / W warnings (list)
 Flywheel:     last update D days ago / N updates in last 30d
 
