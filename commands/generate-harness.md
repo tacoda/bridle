@@ -21,6 +21,7 @@ The template tree lives at `${CLAUDE_PLUGIN_ROOT}/templates/`:
 ```
 templates/
 ├── CLAUDE.md
+├── HARNESS.md
 └── .claude/
     ├── settings.json
     ├── rules/{design-principles,tests,security,commits}.md
@@ -28,6 +29,8 @@ templates/
     ├── commands/pre-commit.md
     └── skills/implement-change/SKILL.md
 ```
+
+`HARNESS.md` is the canonical component definition of the harness. `CLAUDE.md` imports it via `@HARNESS.md`. Treat `HARNESS.md` as a regular template under the scaffolding contract — write if absent, skip if identical, ask if different. It contains no `{{ PLACEHOLDER }}` tokens, so Phase 2 leaves it untouched.
 
 For each template file, follow the contract in `.claude/rules/scaffolding.md` of this plugin:
 

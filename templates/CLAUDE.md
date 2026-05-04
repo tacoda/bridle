@@ -20,14 +20,11 @@ Guidance for Claude Code when working in **{{ PROJECT_NAME }}**.
 
 ## The Harness
 
-The harness is the system that lets an AI agent produce correct, high-quality code consistently. It has four parts plus the discipline that makes them work.
+@HARNESS.md
 
-1. **Guidance** — `CLAUDE.md` (this file) and `.claude/rules/`. Path-scoped rules auto-load when touching matching files. These shape what the agent writes before it writes a single line.
-2. **Guardrails** — automated checks (`{{ LINT_COMMAND }}`, `{{ TEST_COMMAND }}`, `{{ FRONTEND_TEST_COMMAND }}`, `{{ BUILD_COMMAND }}`). The agent runs them; it does not bypass them.
-3. **Flywheel** — the feedback loop. When a reviewer flags a pattern, update the relevant rule file in `.claude/rules/`, reload it, then re-apply. Every review improves every future conversation.
-4. **Executable Workflows** — `.claude/agents/` for isolated read-only analysis, `.claude/commands/` for single-step utilities, `.claude/skills/` for multi-phase workflows.
+### This project's specifics
 
-The harness is only as strong as the code it governs. Write new code to harness standards. Refactor existing code when you touch it. Delete dead code.
+- **Guardrails** for this project: `{{ LINT_COMMAND }}`, `{{ TEST_COMMAND }}`, `{{ FRONTEND_TEST_COMMAND }}`, `{{ BUILD_COMMAND }}`.
 
 | Rule file | Scope |
 |---|---|
