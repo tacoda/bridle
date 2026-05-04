@@ -26,6 +26,15 @@ Open a project in Claude Code:
 
 Scaffolds `CLAUDE.md` and `.claude/` (rules, agents, skills, commands), then walks the codebase to fill placeholders. Existing files are never silently overwritten — conflicts are shown and confirmed individually.
 
+## You own your harness
+
+The files bridle scaffolds live in your repo, not inside the plugin. Once they're in place, the harness runs on Claude Code alone — bridle's commands just make maintaining it easier.
+
+- **Version-controlled.** `CLAUDE.md` and `.claude/` ship with your code. Diff it, branch it, review it like any other source.
+- **Works without bridle.** Uninstall the plugin and the harness keeps working — Claude Code reads `.claude/` natively. Bridle is the tool that maintains the harness, not a runtime dependency of it.
+- **No hidden copies.** Bridle's commands operate on the files in your repo, not on duplicates cached inside the plugin. The plugin is the engine; your `.claude/` is the configuration.
+- **Editable by hand.** Open the markdown, change a rule, commit. The flywheel commands pick up your edits on the next run.
+
 ## Commands
 
 All commands invoke as `/bridle:<command>`.
