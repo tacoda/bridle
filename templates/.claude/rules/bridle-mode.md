@@ -1,18 +1,20 @@
 ---
-description: Bridle execution mode — sync asks every phase, async iterates and stops on ambiguity, autopilot runs end-to-end and reviews at the end
+description: Bridle execution mode — paired asks every phase, solo iterates and stops on ambiguity, autopilot runs end-to-end and reviews at the end
 ---
 
 # Bridle Mode
 
-**Active mode: sync**
+**Active mode: paired**
 
-The active mode is set by `/bridle:mode <sync|async|autopilot>`. The three modes change how the agent paces work, nothing else.
+The active mode is set by `/bridle:mode <paired|solo|autopilot>`. The three modes change how the agent paces work, nothing else.
 
-## Sync mode (default)
+## Paired mode (default)
 
-Ask for feedback at each phase boundary in skills and at confirmation prompts in commands. The user drives the pace.
+Pair programming. Ask for feedback at each phase boundary in skills and at confirmation prompts in commands. The user drives the pace.
 
-## Async mode
+## Solo mode
+
+The agent works independently but raises a hand on hard problems.
 
 - Do **not** ask for feedback at routine phase boundaries.
 - Iterate until the work is done.
@@ -33,6 +35,6 @@ Maximally autonomous. The user engages at kickoff and at the final review.
 
 ## What all modes preserve
 
-- **Plan-first behavior** — planning still happens; only the user-facing "ask" is skipped in async and autopilot.
+- **Plan-first behavior** — planning still happens; only the user-facing "ask" is skipped in solo and autopilot.
 - **Scaffolding safety contract** — never silently overwrite a user's file. All modes ask before overwriting; that is a safety rule, not a pace-setting checkpoint.
 - **User ownership of commits and pushes** — every mode iterates on *work*; the user still owns the *publish*.

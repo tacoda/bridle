@@ -8,7 +8,7 @@ Fix a bug in **{{ PROJECT_NAME }}**: $ARGUMENTS
 
 If `$ARGUMENTS` is empty, ask the user what bug to fix before starting. If the description is unclear, ask for clarification — for bugs, this usually means asking for steps to reproduce, expected vs actual behavior, and any error output or logs.
 
-This skill honors `.claude/rules/bridle-mode.md`. The "ask for feedback" checkpoints below describe **sync** behavior. In **async**, skip routine feedback asks; stop and report if reproduction details are missing, the diagnosis is uncertain, or the regression test fails for the wrong reason. In **autopilot**, run end-to-end — make a best-effort diagnosis, log it as an assumption, and present it at the final review.
+This skill honors `.claude/rules/bridle-mode.md`. The "ask for feedback" checkpoints below describe **paired** behavior. In **solo**, skip routine feedback asks; stop and report if reproduction details are missing, the diagnosis is uncertain, or the regression test fails for the wrong reason. In **autopilot**, run end-to-end — make a best-effort diagnosis, log it as an assumption, and present it at the final review.
 
 ## Workflow
 

@@ -8,7 +8,7 @@ Implement a change in **{{ PROJECT_NAME }}**: $ARGUMENTS
 
 If `$ARGUMENTS` is empty, ask the user what change to implement before starting. If the description is unclear, ask for clarification before starting.
 
-This skill honors `.claude/rules/bridle-mode.md`. The "ask for feedback" checkpoints below describe **sync** behavior. In **async**, skip routine feedback asks and iterate; stop only if requirements are ambiguous, rules conflict, or a failure is inscrutable. In **autopilot**, run end-to-end without stopping for ambiguity — note assumptions inline and present them in a structured assumption log at the final review.
+This skill honors `.claude/rules/bridle-mode.md`. The "ask for feedback" checkpoints below describe **paired** behavior. In **solo**, skip routine feedback asks and iterate; stop only if requirements are ambiguous, rules conflict, or a failure is inscrutable. In **autopilot**, run end-to-end without stopping for ambiguity — note assumptions inline and present them in a structured assumption log at the final review.
 
 ## Workflow
 

@@ -8,7 +8,7 @@ Onboard a new engineer to **{{ PROJECT_NAME }}**. Optional focus area: $ARGUMENT
 
 If `$ARGUMENTS` is non-empty, tailor Phase 1 (Orient) and Phase 3 (Starter task) toward that area. Otherwise, run the generic flow.
 
-This skill **always runs in sync** regardless of `.claude/rules/bridle-mode.md`. The engineer drives the pace; that's the point.
+This skill **always runs in paired mode** regardless of `.claude/rules/bridle-mode.md`. The engineer drives the pace; that's the point.
 
 ## Workflow
 
