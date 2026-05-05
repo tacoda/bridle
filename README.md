@@ -6,7 +6,7 @@ Bridle is the plugin successor to [sellier](https://github.com/tacoda/sellier), 
 
 ## Demo
 
-https://github.com/user-attachments/assets/ef5bc9e4-2b33-481f-be96-9a1a3db39626
+<video src="https://github.com/user-attachments/assets/ef5bc9e4-2b33-481f-be96-9a1a3db39626" autoplay muted loop playsinline controls></video>
 
 ## Background
 
