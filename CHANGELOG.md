@@ -4,6 +4,38 @@ All notable changes to bridle are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] — 2026-05-06
+
+### Added
+
+Eight scaffolded skills extending the harness past the build/ship loop into the rest of the developer lifecycle:
+
+- `rfc` — Request for Comments. Proposal + motivation + detailed design + drawbacks + alternatives + prior art + unresolved questions. Saves to `docs/rfcs/NNNN-<slug>.md`. IRON LAW: every RFC names the open questions it expects reviewers to answer.
+- `adr` — Architecture Decision Records (Nygard pattern). Context, options, decision, consequences. Saves to `docs/adrs/NNNN-<slug>.md`. IRON LAW: no architectural reversal without a superseding ADR. RFCs route to `adr` on acceptance.
+- `threat-model` — STRIDE walkthrough at the spec stage, before implementation. Maps assets, trust boundaries, threats per entry point, mitigations. Saves to `docs/threats/<feature>.md`. IRON LAW: every entry point must have each STRIDE category evaluated.
+- `refactor` — Behavior-preserving catalog refactor (Fowler-style). Small steps from a named catalog (extract method, replace conditional with polymorphism, introduce parameter object, etc.); tests run after each step. IRON LAWS: no behavior change in a refactor commit; no refactor without a green baseline.
+- `investigate-perf` — Performance investigation. Pick metric → baseline → profile → change one thing → measure delta → verify generality. IRON LAW: no performance claim without before/after numbers in the current turn.
+- `respond-to-review` — Walk open PR review comments, propose fix or counter-reply per thread, apply with confirmation, mark resolved with commit-SHA references. IRON LAW: no comment is resolved without either a change or a reply.
+- `release` — Cut a release. Verify clean tree, propose semver bump from commits since the last tag, update CHANGELOG, bump version file, commit `chore(release): <version>`, tag, push. IRON LAWS: no version bump without a changelog entry; no release from a dirty or unverified tree.
+- `postmortem` — Blameless postmortem with explicit RCA. Timeline (UTC), impact (numbers), RCA via 5-whys / causal chain / fishbone, what went well/poorly/where-we-got-lucky, action items that change the system. Saves to `docs/postmortems/YYYY-MM-DD-<slug>.md`. IRON LAWS: blameless language only; no postmortem without an RCA section.
+
+Four scaffolded rules covering non-functional concerns:
+
+- `observability.md` (loaded for source files) — structured logs, correlation IDs, severity discipline, cardinality discipline, what to and not to log, span tagging. IRON LAW: no PII or secrets in logs, metrics, or traces.
+- `migrations.md` (loaded for migration files) — expand → migrate → contract pattern, additive migrations, rehearsal against production-shaped data, locking awareness, review checklist. IRON LAWS: no destructive change in the same release as code that depends on the new shape; no migration without a rehearsal.
+- `dependencies.md` (loaded for manifests / lockfiles) — pinning, audit cadence, license alignment, dep-tree discipline, supply-chain hygiene (lockfiles committed, postinstall scripts audited). IRON LAWS: no unpinned dependencies in manifests; no dependency added without justification in the commit.
+- `feature-flags.md` (loaded when adding or changing flags) — typed lifecycle (release / experiment / kill-switch / ops / permission), naming, default-off, both-sides-tested. IRON LAW: every flag has a lifecycle end-date or removal ticket at birth.
+
+One new review agent:
+
+- `review-performance` — static performance review of the diff. Flags N+1 queries, hot-path allocations, blocking I/O on async paths, unbounded work, cache misuse, eager-loading mismatches, premature scalar-in-vector contexts, repeated parsing/serialization, lock-scope issues. Recommends `investigate-perf` for high-confidence findings.
+
+### Changed
+
+- `templates/CLAUDE.md` — rules table includes the four new rules with their scopes; skills table gains an **Invocation** column distinguishing standalone skills from those auto-called by other workflows; on-demand context lists the new `docs/rfcs/`, `docs/adrs/`, `docs/threats/`, and `docs/postmortems/` artifact directories.
+- `README.md` — Quick start lists the 15 scaffolded skills; Daily workflow gains an "Other workflows" subsection covering RFCs, ADRs, threat models, refactors, perf investigation, releases, and postmortems; scaffolded-skills table adds an **Invocation** column; new "Scaffolded rules" and "Scaffolded agents" tables document the full template tree.
+- `/bridle:generate-harness` template-tree listing updated to include the new skills, rules, and `review-performance` agent. Placeholder inventory expanded with `OBSERVABILITY_NOTES`, `MIGRATION_NOTES`, `DEPENDENCY_NOTES`, and `FEATURE_FLAG_NOTES`.
+
 ## [1.2.1] — 2026-05-06
 
 ### Fixed
