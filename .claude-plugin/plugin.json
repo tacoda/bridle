@@ -1,6 +1,6 @@
 {
   "name": "bridle",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Agent project harness manager for Claude Code",
   "keywords": [
     "claude-code",

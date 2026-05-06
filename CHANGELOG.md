@@ -4,6 +4,11 @@ All notable changes to bridle are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.1] — 2026-05-06
+
+### Fixed
+- `/bridle:patch-harness` now substitutes `{{ PLACEHOLDER }}` tokens in **new** files added by an upgrade. Previously, new files were written verbatim, leaving raw tokens in the consumer's harness. Phase 2 marks placeholder-bearing new files in its proposal list, reuses any value already bound elsewhere in the consumer's harness as the default, falls back to project evidence for unbound tokens, and substitutes once before write. Existing consumer files are still never re-substituted.
+
 ## [1.2.0] — 2026-05-06
 
 ### Added
