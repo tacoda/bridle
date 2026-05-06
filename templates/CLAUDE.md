@@ -37,6 +37,10 @@ Guidance for Claude Code when working in **{{ PROJECT_NAME }}**.
 | `.claude/rules/security.md` | Loaded for auth, queries, file I/O, response shapes |
 | `.claude/rules/commits.md` | Loaded before commit — conventional commits, no AI attribution |
 | `.claude/rules/mcp.md` | Loaded for `.mcp.json`, `.claude/settings.json` — MCP wiring guidance |
+| `.claude/rules/observability.md` | Loaded when editing source code — logs, metrics, traces; IRON LAW: no PII or secrets |
+| `.claude/rules/migrations.md` | Loaded for migration files — expand/contract pattern, no destructive changes paired with code |
+| `.claude/rules/dependencies.md` | Loaded for manifests / lockfiles — pin, audit, justify additions |
+| `.claude/rules/feature-flags.md` | Loaded when adding or changing feature flags — lifecycle and removal discipline |
 
 ### Rule conventions
 
@@ -51,18 +55,32 @@ Two kinds of statements appear across these rules:
 - `GLOSSARY.md` (project root) — domain vocabulary with aliases-to-avoid.
 - `docs/specs/YYYY-MM-DD-<topic>.md` — approved design docs produced by the `brainstorm` skill.
 - `docs/plans/YYYY-MM-DD-<topic>.md` — implementation plans produced by `implement-change`, executed by `subagent-tasks`.
+- `docs/rfcs/NNNN-<slug>.md` — proposals seeking input, produced by the `rfc` skill.
+- `docs/adrs/NNNN-<slug>.md` — accepted architectural decisions (ADRs), produced by the `adr` skill.
+- `docs/threats/<feature>.md` — threat models produced by the `threat-model` skill.
+- `docs/postmortems/YYYY-MM-DD-<slug>.md` — incident postmortems produced by the `postmortem` skill.
 
 ### Skills
 
-| Skill | Purpose |
-|---|---|
-| `brainstorm` | Turn an idea into an approved spec. Saves to `docs/specs/`. |
-| `implement-change` | TDD-driven implementation from spec to PR. Writes a plan to `docs/plans/`. |
-| `fix-bug` | Diagnose and fix a bug; root cause first, regression test before patch. |
-| `subagent-tasks` | Execute a multi-task plan with a fresh subagent per task and two-stage review. |
-| `worktree` | Set up an isolated workspace for parallel work. |
-| `finish-branch` | Verify, then open PR / merge / keep / discard. |
-| `onboard` | Walk a new engineer through the codebase. |
+All skills are runnable manually as `/<name>`. Some are also invoked automatically by other skills, listed in the **Invocation** column.
+
+| Skill | Invocation | Purpose |
+|---|---|---|
+| `brainstorm` | Standalone; called by `implement-change` (Phase 0) | Turn an idea into an approved spec. Saves to `docs/specs/`. |
+| `rfc` | Standalone; routes to `adr` on acceptance | Open a Request for Comments — proposal + alternatives + unresolved questions. Saves to `docs/rfcs/`. |
+| `adr` | Standalone; called by `rfc` after acceptance | Capture an architectural decision as an ADR. Saves to `docs/adrs/`. |
+| `threat-model` | Standalone | Build a threat model (STRIDE) for a feature. Saves to `docs/threats/`. |
+| `implement-change` | Standalone; called by `onboard` for first PR | TDD-driven implementation from spec to PR. Writes a plan to `docs/plans/`. |
+| `subagent-tasks` | Standalone; called by `implement-change` for plans with 3+ tasks | Execute a multi-task plan with a fresh subagent per task and two-stage review. |
+| `refactor` | Standalone | Behavior-preserving catalog refactor. Small steps, tests after each. |
+| `fix-bug` | Standalone | Diagnose and fix a bug; root cause first, regression test before patch. |
+| `investigate-perf` | Standalone; recommended by `review-performance` agent | Investigate a perf problem — baseline, profile, change one thing, measure delta. |
+| `worktree` | Standalone | Set up an isolated workspace for parallel work. |
+| `finish-branch` | Standalone; called by `fix-bug` and `implement-change` | Verify, then open PR / merge / keep / discard. |
+| `respond-to-review` | Standalone | Walk through PR review comments, propose fixes, apply, mark resolved. |
+| `release` | Standalone | Cut a release — semver bump, changelog, tag, push. |
+| `postmortem` | Standalone | Blameless postmortem with timeline + RCA + action items. Saves to `docs/postmortems/`. |
+| `onboard` | Standalone | Walk a new engineer through the codebase. |
 
 ## Commands
 

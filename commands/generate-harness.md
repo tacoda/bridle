@@ -25,11 +25,11 @@ templates/
 ├── HARNESS.md
 └── .claude/
     ├── settings.json
-    ├── rules/{design-principles,tests,tdd-anti-patterns,security,commits,bridle-mode,session-hygiene,verification-before-completion,mcp}.md
+    ├── rules/{design-principles,tests,tdd-anti-patterns,security,commits,bridle-mode,session-hygiene,verification-before-completion,mcp,observability,migrations,dependencies,feature-flags}.md
     ├── features/{_template,README}.md
-    ├── agents/{ci-diagnose,refactor-changes,review-functional,review-security,self-review}.md
+    ├── agents/{ci-diagnose,refactor-changes,review-functional,review-performance,review-security,self-review}.md
     ├── commands/pre-commit.md
-    └── skills/{brainstorm,implement-change,fix-bug,subagent-tasks,worktree,finish-branch,onboard}/SKILL.md
+    └── skills/{brainstorm,rfc,adr,threat-model,implement-change,subagent-tasks,refactor,fix-bug,investigate-perf,worktree,finish-branch,respond-to-review,release,postmortem,onboard}/SKILL.md
 ```
 
 `.claude/features/_template.md` is reference-only for the consumer. Its `<...>` placeholders are filled per feature by `/bridle:add-feature-doc`, **not** by this command. The Phase 2 scan only touches `{{ }}` tokens, so the template is naturally untouched.
@@ -75,7 +75,7 @@ Confirm Phase 1 looks right before moving to Phase 2.
    git grep -nE '\{\{ ?[A-Z][A-Z0-9_]+ ?\}\}' -- CLAUDE.md GLOSSARY.md .claude/
    ```
    The regex tolerates optional spacing so a hand-written `{{NAME}}` is still caught; emit replacements over the spaced form. Build a deduplicated list. Expected tokens (the exact set varies):
-   `PROJECT_NAME`, `PROJECT_DESCRIPTION`, `TECH_STACK`, `MAIN_BRANCH`, `TASK_TRACKER`, `CI_PROVIDER`, `LINT_COMMAND`, `TEST_COMMAND`, `BUILD_COMMAND`, `FRONTEND_TEST_COMMAND`, `BUILD_TOOL`, `TEST_PATHS`, `DEPENDENCY_AUDIT_COMMAND`, `PROJECT_LAYOUT`, `PROJECT_PATTERNS`, `TEST_SETUP_NOTES`, `SECURITY_NOTES`, `COMMIT_NOTES`.
+   `PROJECT_NAME`, `PROJECT_DESCRIPTION`, `TECH_STACK`, `MAIN_BRANCH`, `TASK_TRACKER`, `CI_PROVIDER`, `LINT_COMMAND`, `TEST_COMMAND`, `BUILD_COMMAND`, `FRONTEND_TEST_COMMAND`, `BUILD_TOOL`, `TEST_PATHS`, `DEPENDENCY_AUDIT_COMMAND`, `PROJECT_LAYOUT`, `PROJECT_PATTERNS`, `TEST_SETUP_NOTES`, `SECURITY_NOTES`, `COMMIT_NOTES`, `OBSERVABILITY_NOTES`, `MIGRATION_NOTES`, `DEPENDENCY_NOTES`, `FEATURE_FLAG_NOTES`.
 
 2. **Inspect the project for evidence.** Read whichever exist:
    - `package.json`, `pyproject.toml`, `composer.json`, `Cargo.toml`, `go.mod`, `Gemfile` — language and stack

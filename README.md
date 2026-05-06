@@ -68,9 +68,9 @@ After the scaffold, you have:
 - `.claude/features/` — on-demand domain context, read when exploring a specific feature.
 - `.claude/agents/` — review and analysis agents.
 - `.claude/commands/` — single-step utilities (e.g., `/pre-commit`).
-- `.claude/skills/` — multi-phase workflows (`/brainstorm`, `/implement-change`, `/fix-bug`, `/subagent-tasks`, `/worktree`, `/finish-branch`, `/onboard`).
+- `.claude/skills/` — multi-phase workflows for the developer lifecycle: `/brainstorm`, `/rfc`, `/adr`, `/threat-model`, `/implement-change`, `/subagent-tasks`, `/refactor`, `/fix-bug`, `/investigate-perf`, `/worktree`, `/finish-branch`, `/respond-to-review`, `/release`, `/postmortem`, `/onboard`. (See [Scaffolded skills](#scaffolded-skills).)
 - `.claude/settings.json` — Claude Code permissions and settings.
-- `docs/specs/` and `docs/plans/` — durable artifacts produced by `/brainstorm` and `/implement-change` so the next session can pick up where this one left off.
+- `docs/` — durable artifacts produced by skills: `specs/` (brainstorm), `plans/` (implement-change), `rfcs/`, `adrs/` (ADRs), `threats/`, `postmortems/`. The next session picks up where this one left off.
 
 ## Daily workflow
 
@@ -82,9 +82,21 @@ A typical day-to-day loop with bridle in your project:
 4. **The skill runs phases** — TDD, review, commit. In **paired** mode (default), it pauses for your feedback at each phase. In **solo**, it iterates autonomously and stops on ambiguity. In **autopilot**, it runs end-to-end and you review at the end. (See [Mode](#mode).)
 5. **Before commit, `/pre-commit`** runs lint / tests / type-check. The agent fixes failures rather than bypassing them.
 6. **When the work is ready to ship, `/finish-branch`.** Verifies tests pass, then presents merge / PR / keep / discard options.
-7. **When a reviewer flags a pattern, run `/bridle:learn`** (or edit the relevant rule directly). The next conversation already knows.
+7. **When reviewers leave comments on the PR, `/respond-to-review`.** Walks each thread, proposes a fix or a counter-reply, applies with your confirmation.
+8. **When a reviewer flags a pattern, run `/bridle:learn`** (or edit the relevant rule directly). The next conversation already knows.
 
 For parallel work, `/worktree <name>` sets up an isolated workspace on a new branch with a verified-green baseline.
+
+### Other workflows
+
+The lifecycle covers more than the build loop:
+
+- **`/rfc`** for proposals seeking input. **`/adr`** to record an architectural decision after the proposal lands.
+- **`/threat-model`** before implementing a security-sensitive feature — STRIDE walkthrough, mitigations land in the spec.
+- **`/refactor`** for behavior-preserving structural change. No behavior change in the same commit; tests run after every catalog step.
+- **`/investigate-perf`** when something is slow. Baseline → profile → change one thing → measure delta. No perf claim without before/after numbers.
+- **`/release`** to cut a release — semver bump, changelog entry, tag, push, all in one `chore(release):` commit.
+- **`/postmortem`** after an incident. Timeline, RCA (5-whys / causal chain), action items that change the *system*. Saved to `docs/postmortems/`.
 
 Less frequent maintenance:
 
@@ -163,15 +175,58 @@ All commands invoke as `/bridle:<command>`.
 
 `/bridle:generate-harness` writes these multi-phase skills into `.claude/skills/`. They're invoked as `/<name>` from your project, run on Claude Code alone, and are yours to edit.
 
-| Skill | Description |
+Every skill is runnable manually. Some are also invoked automatically by other skills — the **Invocation** column shows when that happens.
+
+| Skill | Invocation | Description |
+|---|---|---|
+| `/brainstorm` | Standalone; called by `implement-change` (Phase 0) | Turn a rough idea into an approved spec — Socratic dialogue, 2–3 approaches, writes to `docs/specs/` |
+| `/rfc` | Standalone; routes to `adr` on acceptance | Open a Request for Comments — motivation, detailed design, drawbacks, alternatives, unresolved questions. Saves to `docs/rfcs/` |
+| `/adr` | Standalone; called by `rfc` after acceptance | Capture an architectural decision as an ADR — context, options, decision, consequences. Saves to `docs/adrs/` |
+| `/threat-model` | Standalone | STRIDE-based threat model for a feature, scoped to assets and trust boundaries. Saves to `docs/threats/` |
+| `/implement-change` | Standalone; called by `onboard` for first PR | Implement a change using TDD — spec through to a PR; writes a durable plan to `docs/plans/` |
+| `/subagent-tasks` | Standalone; called by `implement-change` for plans with 3+ independent tasks | Execute a multi-task plan with a fresh subagent per task and two-stage review |
+| `/refactor` | Standalone | Behavior-preserving catalog refactor — small steps, tests after each step, no behavior change in the same commit |
+| `/fix-bug` | Standalone | Diagnose and fix a bug using TDD — root cause first, regression test before patch, ship |
+| `/investigate-perf` | Standalone; recommended by `review-performance` agent | Investigate a performance problem — baseline, profile, change one thing, measure delta. No perf claims without before/after numbers |
+| `/worktree` | Standalone | Set up an isolated workspace for parallel work — detects existing isolation, verifies a green baseline |
+| `/finish-branch` | Standalone; called by `fix-bug` and `implement-change` | Verify tests, then present merge / PR / keep / discard options and execute the choice |
+| `/respond-to-review` | Standalone | Walk through open PR review comments, propose fixes, apply with confirmation, mark threads resolved |
+| `/release` | Standalone | Cut a release — semver bump, changelog entry, tag, push, with one `chore(release):` commit |
+| `/postmortem` | Standalone | Blameless postmortem with timeline, impact, root cause analysis (5-whys / causal chain), and action items. Saves to `docs/postmortems/` |
+| `/onboard` | Standalone | Walk a new engineer through orient, environment verification, and a first starter PR |
+
+## Scaffolded rules
+
+Rules in `.claude/rules/` are short markdown files Claude Code loads as guidance. Some are always loaded; others auto-load when their scope matches the files being touched.
+
+| Rule | Scope | Topic |
+|---|---|---|
+| `design-principles.md` | Always | SOLID, KISS, YAGNI, DRY, deep modules, Tell-Don't-Ask |
+| `bridle-mode.md` | Always | Agent pacing — paired / solo / autopilot |
+| `session-hygiene.md` | Always | When to `/clear` or `/compact`; worktrees for parallel work |
+| `verification-before-completion.md` | Always | IRON LAW: no completion claims without fresh verification evidence |
+| `tests.md` | Test paths | TDD workflow and patterns |
+| `tdd-anti-patterns.md` | Test paths | Catalog of TDD anti-patterns with diagnoses and fixes |
+| `security.md` | Auth / queries / I/O / response shapes | OWASP-aligned guidance |
+| `commits.md` | Before commit | Conventional commits, IRON LAW: no AI attribution, no failing pre-commit |
+| `mcp.md` | `.mcp.json`, `.claude/settings.json` | MCP wiring guidance |
+| `observability.md` | Source files | Logs, metrics, traces; IRON LAW: no PII or secrets |
+| `migrations.md` | Migration paths | Expand/contract pattern; IRON LAW: no destructive change paired with code that depends on it |
+| `dependencies.md` | Manifests / lockfiles | Pin, audit, justify; supply-chain hygiene |
+| `feature-flags.md` | Flag config | Lifecycle, types, IRON LAW: every flag has a removal plan at birth |
+
+## Scaffolded agents
+
+Agents in `.claude/agents/` are isolated, often read-only analyses. Skills spawn them in parallel; you can also invoke them via `/spawn-reviewers` or directly.
+
+| Agent | Description |
 |---|---|
-| `/brainstorm` | Turn a rough idea into an approved spec — Socratic dialogue, 2–3 approaches, writes to `docs/specs/` |
-| `/implement-change` | Implement a change using TDD — spec through to a PR; writes a durable plan to `docs/plans/` |
-| `/fix-bug` | Diagnose and fix a bug using TDD — root cause first, regression test before patch, ship |
-| `/subagent-tasks` | Execute a multi-task plan with a fresh subagent per task and two-stage review |
-| `/worktree` | Set up an isolated workspace for parallel work — detects existing isolation, verifies a green baseline |
-| `/finish-branch` | Verify tests, then present merge / PR / keep / discard options and execute the choice |
-| `/onboard` | Walk a new engineer through orient, environment verification, and a first starter PR |
+| `self-review` | Last-mile review of the diff before commit — design, tests, edge cases |
+| `review-functional` | Functional correctness review of the diff |
+| `review-security` | OWASP-aligned security review of the diff |
+| `review-performance` | Performance review of the diff — flags hot-path regressions, N+1s, allocation hotspots, blocking I/O |
+| `refactor-changes` | Surfaces refactoring opportunities in the diff |
+| `ci-diagnose` | Reads CI logs to diagnose failures |
 
 ### Iron Laws and Golden Rules
 
