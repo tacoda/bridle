@@ -68,17 +68,23 @@ After the scaffold, you have:
 - `.claude/features/` — on-demand domain context, read when exploring a specific feature.
 - `.claude/agents/` — review and analysis agents.
 - `.claude/commands/` — single-step utilities (e.g., `/pre-commit`).
-- `.claude/skills/` — multi-phase workflows (`/implement-change`, `/fix-bug`, `/onboard`).
+- `.claude/skills/` — multi-phase workflows (`/brainstorm`, `/implement-change`, `/fix-bug`, `/subagent-tasks`, `/worktree`, `/finish-branch`, `/onboard`).
 - `.claude/settings.json` — Claude Code permissions and settings.
+- `docs/specs/` and `docs/plans/` — durable artifacts produced by `/brainstorm` and `/implement-change` so the next session can pick up where this one left off.
 
 ## Daily workflow
 
 A typical day-to-day loop with bridle in your project:
 
-1. **Pick up a task.** Invoke the right skill: `/implement-change <description>` for features, `/fix-bug <description>` for bugs, `/onboard` for new contributors.
-2. **The skill runs phases** — TDD, review, commit. In **paired** mode (default), it pauses for your feedback at each phase. In **solo**, it iterates autonomously and stops on ambiguity. In **autopilot**, it runs end-to-end and you review at the end. (See [Mode](#mode).)
-3. **Before commit, `/pre-commit`** runs lint / tests / type-check. The agent fixes failures rather than bypassing them.
-4. **When a reviewer flags a pattern, run `/bridle:learn`** (or edit the relevant rule directly). The next conversation already knows.
+1. **Pick up a task.** Invoke the right skill: `/brainstorm <idea>` for design conversations, `/implement-change <description>` for features, `/fix-bug <description>` for bugs, `/onboard` for new contributors.
+2. **For non-trivial work, brainstorm first.** `/brainstorm` runs Socratic clarification, proposes 2–3 approaches, and writes an approved spec to `docs/specs/YYYY-MM-DD-<topic>.md`. `/implement-change` then reads the spec and writes a plan to `docs/plans/`.
+3. **Plans with 3+ independent tasks → `/subagent-tasks`.** Dispatches a fresh subagent per task with two-stage review (spec compliance, then code quality), then verifies the diff yourself.
+4. **The skill runs phases** — TDD, review, commit. In **paired** mode (default), it pauses for your feedback at each phase. In **solo**, it iterates autonomously and stops on ambiguity. In **autopilot**, it runs end-to-end and you review at the end. (See [Mode](#mode).)
+5. **Before commit, `/pre-commit`** runs lint / tests / type-check. The agent fixes failures rather than bypassing them.
+6. **When the work is ready to ship, `/finish-branch`.** Verifies tests pass, then presents merge / PR / keep / discard options.
+7. **When a reviewer flags a pattern, run `/bridle:learn`** (or edit the relevant rule directly). The next conversation already knows.
+
+For parallel work, `/worktree <name>` sets up an isolated workspace on a new branch with a verified-green baseline.
 
 Less frequent maintenance:
 
@@ -128,6 +134,7 @@ All commands invoke as `/bridle:<command>`.
 | Pillar | Command | Description |
 |---|---|---|
 | harness | `/generate-harness` | Scaffold the harness into the current project and substitute placeholders |
+| harness | `/patch-harness` | Bring forward template additions after a bridle upgrade — adds new files, diffs structural changes, never re-runs placeholder substitution |
 | harness | `/mode` | Read or set the bridle execution mode (paired, solo, autopilot) |
 | guidance | `/add-rule` | Create a new rule file in `.claude/rules/` |
 | guidance | `/add-feature-doc` | Scaffold a new on-demand feature doc in `.claude/features/` |
@@ -158,9 +165,22 @@ All commands invoke as `/bridle:<command>`.
 
 | Skill | Description |
 |---|---|
-| `/implement-change` | Implement a change (feature, follow-up) using TDD — requirements through to a PR |
-| `/fix-bug` | Diagnose and fix a bug using TDD — replicate, wrap in a failing test, fix, ship |
+| `/brainstorm` | Turn a rough idea into an approved spec — Socratic dialogue, 2–3 approaches, writes to `docs/specs/` |
+| `/implement-change` | Implement a change using TDD — spec through to a PR; writes a durable plan to `docs/plans/` |
+| `/fix-bug` | Diagnose and fix a bug using TDD — root cause first, regression test before patch, ship |
+| `/subagent-tasks` | Execute a multi-task plan with a fresh subagent per task and two-stage review |
+| `/worktree` | Set up an isolated workspace for parallel work — detects existing isolation, verifies a green baseline |
+| `/finish-branch` | Verify tests, then present merge / PR / keep / discard options and execute the choice |
 | `/onboard` | Walk a new engineer through orient, environment verification, and a first starter PR |
+
+### Iron Laws and Golden Rules
+
+The scaffolded rules and skills use two distinct rhetorical markers:
+
+- **IRON LAW** — non-negotiable. Violating the letter is violating the spirit. Examples: no production code without a failing test first; no fixes without root cause; no completion claims without fresh verification evidence; no co-authors or AI attribution in commits.
+- **GOLDEN RULES** — ideals to aim for. Examples: aim for the smallest publishable diff; aim for tests that read like specifications; aim for the minimum context per subagent.
+
+Iron laws appear under an `## IRON LAW` heading. Golden rules appear under a `## GOLDEN RULES` heading. Both are version-controlled with your project — edit them as your team's standards evolve.
 
 ## Safety
 
