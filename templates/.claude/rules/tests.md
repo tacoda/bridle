@@ -52,6 +52,8 @@ Structure every test with clear separation. One logical assertion per test.
 - Do not assert on exact error message strings — assert on status codes and structure
 - Do not use `sleep()` — use deterministic waits
 
+For the full catalog with diagnoses and fixes, see `.claude/rules/tdd-anti-patterns.md`.
+
 ## Project-Specific Test Setup
 
 {{ TEST_SETUP_NOTES }}

@@ -4,6 +4,22 @@ description: Commit and pull request rules for {{ PROJECT_NAME }}
 
 # Commits & Pull Requests
 
+## IRON LAWS
+
+**NO CO-AUTHORS. NO AI ATTRIBUTION.**
+
+Commit messages, PR descriptions, and {{ TASK_TRACKER }} tickets do not mention Claude, an AI agent, or any tool used to author the change. The author is the human running the harness.
+
+**NO COMMITS WITH FAILING PRE-COMMIT CHECKS.**
+
+`{{ LINT_COMMAND }}` and `{{ TEST_COMMAND }}` must pass in this turn before `git commit`. CI is a backstop, not a substitute. See `.claude/rules/verification-before-completion.md`.
+
+## GOLDEN RULES
+
+- **Aim for one logical change per commit.** A reviewer should be able to read the diff in one sitting and explain it back.
+- **Aim for structural changes separated from behavioral changes.** A refactor commit and a feature commit on the same diff hide each other.
+- **Aim for commit messages that explain *why*, not what.** The diff already says what.
+
 ## Conventional Commits
 
 Format: `<type>(<scope>): <subject>`
@@ -18,11 +34,8 @@ Common types:
 
 ## Rules
 
-- One logical change per commit. Separate **structural** (refactor) and **behavioral** (feat/fix) changes into different commits.
 - The codebase stays releasable on `{{ MAIN_BRANCH }}` at all times. Use feature flags to decouple deploy from release.
-- Pre-commit checks must pass before commit. CI is a backstop, not a substitute.
-- Do **not** add co-authors to commit messages.
-- Do **not** mention the AI agent in commit messages, PR descriptions, or {{ TASK_TRACKER }} tickets.
+- Never force-push to `{{ MAIN_BRANCH }}` and never bypass pre-commit hooks (`--no-verify`) without explicit user instruction.
 
 ## Pull Requests
 
